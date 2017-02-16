@@ -56,7 +56,6 @@ if __name__ == '__main__':
             group = arguments["group"].value
         else: group = None
         allowed, message = checkPermission(repository, branch, user, group)
-        print "<hr>"
         if allowed:
             ret200(message)
         else: ret403(message)  

@@ -8,8 +8,6 @@ import config
 def fetchLatestConfig(): 
     """ get latest config """
     db = PostsaiDB(vars(config))
-    ret200("<i>debug output, the real result is at the bottom</i>")
-    print "<hr><br> db "+repr(db)+"<br><hr><hr>"
     db.connect()
     sql = "SELECT id, configtext, username, changecomment, changetime FROM postsaidb.repository_status ORDER BY changetime DESC LIMIT 1"
     rows = db.query(sql, None, cursor_type=None)
@@ -17,10 +15,6 @@ def fetchLatestConfig():
     if len(rows)<1:
         return "- .* .* .* .* Cannot fetch config from database"
     latestConfig = rows[0]
-    print "<hr><br>cursor "+str(latestConfig)+"<br><hr><hr>"
-    print "####################################<br>"
-    print latestConfig[3].encode('utf-8')
-    print "<br>####################################<br>"
     return mock()
 
 

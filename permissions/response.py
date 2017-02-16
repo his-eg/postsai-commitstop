@@ -8,7 +8,7 @@ def ret403(cause):
 
 def retHttp(status, cause):
     print("Status: " + str(status) + " Ok\r")
-    print("Content-Type: text/html; charset='utf-8'\r")
+    print("Content-Type: text/plain; charset='utf-8'\r")
     print("\r")
     print(cause)
     
