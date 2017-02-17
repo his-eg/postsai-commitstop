@@ -1,0 +1,20 @@
+<h1>{{title}}</h1>
+
+
+<textarea [(ngModel)]='currentConfig.configText' rows="24" cols="80"
+	style="width: 80%">
+</textarea>
+<br>
+
+Comment:
+<input type="text" [(ngModel)]="currentConfig.changeComment">
+<button (click)="doSubmit($event)">submit</button>
+<p>Pick a previous config: {{search}}</p>
+
+<div>
+	<ngx-datatable [rows]="rows" [columns]="columns"
+		class="material selection-row" style="width: 80%"
+		(select)="onSelect($event)" [columnMode]="'force'" [headerHeight]="'auto'"
+		[footerHeight]="'auto'" [rowHeight]="'auto'" [selected]="selected"
+		[selectionType]="'single'" [limit]="10"> </ngx-datatable>
+</div>

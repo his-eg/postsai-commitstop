@@ -5,17 +5,24 @@ import config
 
 
 
-def fetchLatestConfig(): 
+def fetchLatestConfig():
+    rows = fetchConfigs(1)
+    if len(rows) < 1:
+        return "- .* .* .* .* Cannot fetch config from database"
+    latestConfig = rows[0]
+
+    # return mock()
+    return latestConfig[0]
+    
+    
+def fetchConfigs(maximum):
     """ get latest config """
     db = PostsaiDB(vars(config))
     db.connect()
-    sql = "SELECT id, configtext, username, changecomment, changetime FROM postsaidb.repository_status ORDER BY changetime DESC LIMIT 1"
+    sql = "SELECT configtext, username, changecomment, changetime FROM postsaidb.repository_status ORDER BY changetime DESC LIMIT " + str(maximum)
     rows = db.query(sql, None, cursor_type=None)
     db.disconnect()
-    if len(rows)<1:
-        return "- .* .* .* .* Cannot fetch config from database"
-    latestConfig = rows[0]
-    return mock()
+    return rows
 
 
 def mock():

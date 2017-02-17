@@ -34,13 +34,13 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
 from permissions.checker import checkPermission
+from permissions.history import sendHistory
 from permissions.response import ret403
 from permissions.response import ret200
 
 
-if __name__ == '__main__':
-    arguments = cgi.FieldStorage()
-
+    
+def sendStatus(arguments):    
     if not arguments.__contains__("repository"):
         ret403("no repository given")
     elif not arguments.__contains__("branch"):
@@ -59,3 +59,13 @@ if __name__ == '__main__':
         if allowed:
             ret200(message)
         else: ret403(message)  
+
+
+
+if __name__ == '__main__':
+    arguments = cgi.FieldStorage()
+
+    if arguments.__contains__("history"):
+        sendHistory(arguments["history"].value)
+    else: sendStatus(arguments)
+    
