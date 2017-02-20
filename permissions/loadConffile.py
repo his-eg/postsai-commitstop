@@ -19,7 +19,7 @@ def fetchConfigs(maximum):
     """ get latest config """
     db = PostsaiDB(vars(config))
     db.connect()
-    sql = "SELECT configtext, username, changecomment, changetime FROM postsaidb.repository_status ORDER BY changetime DESC LIMIT " + str(maximum)
+    sql = "SELECT configtext, username, changecomment, changetime FROM repository_status ORDER BY changetime DESC LIMIT " + str(int(maximum))
     rows = db.query(sql, None, cursor_type=None)
     db.disconnect()
     return rows
