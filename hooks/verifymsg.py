@@ -29,7 +29,7 @@ except ImportError:
 def urlencode(value):
     """ very simple url encoding that works with really old python versions"""
 
-    return value.replace("%", "%25").replace("&", "%26").replace("=", "%3D").replace("\r\n", " ").replace("\n", " ")
+    return value.replace("%", "%25").replace("&", "%26").replace("=", "%3D").replace("\r\n", "%32").replace("\n", "%32")
 
 
 class PermissionChecker:
@@ -86,8 +86,19 @@ class PermissionChecker:
                 return
 
 
+    def read_commitmsg(self):
+        with open(self.msg_file, "r") as f:
+            self.commitmsg = f.read()
+
+
+
     def generate_query_string(self):
-        return "repository=" + urlencode(self.repository) + "&branch=" + urlencode(self.branch) + "&user=" + urlencode(self.user)
+        """generates the url query string based on previously read information"""
+
+        return "repository=" + urlencode(self.repository) \
+            + "&branch=" + urlencode(self.branch) \
+            + "&user=" + urlencode(self.user) \
+            + "&commitmsg=" + urlencode(self.commitmsg[0:7000])
 
 
     def query_webservice(self):
@@ -122,6 +133,7 @@ def main(argv=None):
     checker.read_commandline_arguments()
     checker.read_user()
     checker.read_branch()
+    checker.read_commitmsg()
     checker.query_webservice()
 
 if __name__ == "__main__":
