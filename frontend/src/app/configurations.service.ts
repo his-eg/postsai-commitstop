@@ -45,7 +45,6 @@ export class ConfigurationsService {
 
 
     private translate( o: string[][] ): Submission[] {
-        // TODO zur Sicherheit HTML escapen!!
         let submissions = [];
         for ( var i = 0; i < o.length; i++ ) {
             var row = o[i];
@@ -62,11 +61,12 @@ export class ConfigurationsService {
     }
 
 
-    saveConfig( submission: Submission ): Promise<Response> {
+    saveConfig( submission: Configuration ): Promise<Response> {
         // INSERT INTO `postsaidb`.`repository_status` (`configtext`, `username`, `changecomment`, `changetime`) VALUES ('+ oink', 'einer', '*kommentier*', '2004-01-23 17:00:00');        
         // this won't actually work because the StarWars API doesn't 
         // is read-only. But it would look like this:
-        return this.http.post( `${this.baseUrl}?save=1`, JSON.stringify( submission ), { headers: this.getHeaders() }).toPromise();
+        console.error(submission.toString());
+        return this.http.post( `${this.baseUrl}?activate=1`, JSON.stringify( submission ), { headers: this.getHeaders() }).toPromise();
     }
 
 

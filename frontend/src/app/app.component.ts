@@ -50,17 +50,12 @@ export class AppComponent implements OnInit {
     }
 
     doSubmit( event ) {
-        // alert( "clicked." );
         if ( this.rows.length > 0 && this.currentConfig.sameAs( this.rows[0].config ) )
             alert( "Not saved. Configuration is already active." );
         else if ( confirm( "Save new configuration?" ) ) {
-            let added = new Submission( this.currentConfig.clone(), "meinereiner", new Date() );
-            this.rows.unshift( added );
-            // TODO save in database
-            this.configurationsService.saveConfig( added ).then(x => alert(x));
+            let added = this.currentConfig.clone();
+            this.configurationsService.saveConfig( added );
             this.fetchConfigs();
-            
-            this.selected = [added];
         }
     }
 }

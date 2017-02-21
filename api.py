@@ -22,8 +22,8 @@
 # DEALINGS IN THE SOFTWARE.
 
 
-
 import cgi
+import datetime
 import json
 import sys
 from os import environ
@@ -33,10 +33,14 @@ import os
 # ugly but necessary: also find packages at the root of the package tree
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
+import config
+from backend.db import PostsaiDB
+
 from permissions.checker import checkPermission
 from permissions.history import sendHistory
 from permissions.response import ret403
 from permissions.response import ret200
+
 
 
     
@@ -61,11 +65,34 @@ def sendStatus(arguments):
         else: ret403(message)  
 
 
+def storeConfig(arguments):
+    if not arguments.__contains__("changeComment"):
+        sys.stderr.write("upsi!.\n")
+        ret403("no changeComment")
+    elif not arguments.__contains__("configText"):
+        sys.stderr.write("upsi!!.\n")
+        ret403("no configText.\n")
+    else:
+        sys.stderr.write(str(arguments) + "\n");
+        db = PostsaiDB(vars(config))
+        db.connect()
+        sql = "INSERT INTO repository_status (`configtext`, `username`, `changecomment`, `changetime`) VALUES (%s, %s, %s, NOW());"
+        data = ("Konf3", "User3", "Comment3")
+        rows = db.query(sql, data, cursor_type=None)
+        #sys.stderr.write("SQL: " + sql + "\n")
+        #sys.stderr.write("ROWS: " + str(rows) + "\n")
+        db.disconnect()
+        ret200("stored")
 
 if __name__ == '__main__':
-    arguments = cgi.FieldStorage()
-
-    if arguments.__contains__("history"):
-        sendHistory(arguments["history"].value)
-    else: sendStatus(arguments)
+    if environ.has_key('REQUEST_METHOD') and environ['REQUEST_METHOD'] == "POST":
+        sys.stderr.write("ISPOST\n")
+        storeConfig(json.loads(sys.stdin.read()))
+    else:
+        arguments = cgi.FieldStorage()
+        if arguments.__contains__("history"):
+            sendHistory(arguments["history"].value)
+        elif arguments.__contains__("activate"):
+            storeConfig(arguments)
+        else: sendStatus(arguments)
     
