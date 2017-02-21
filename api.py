@@ -77,7 +77,7 @@ def storeConfig(arguments):
         db = PostsaiDB(vars(config))
         db.connect()
         sql = "INSERT INTO repository_status (`configtext`, `username`, `changecomment`, `changetime`) VALUES (%s, %s, %s, NOW());"
-        data = ("Konf3", "User3", "Comment3")
+        data = (arguments["configText"], "Mr X", arguments["changeComment"])
         rows = db.query(sql, data, cursor_type=None)
         #sys.stderr.write("SQL: " + sql + "\n")
         #sys.stderr.write("ROWS: " + str(rows) + "\n")

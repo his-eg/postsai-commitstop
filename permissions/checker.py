@@ -58,7 +58,7 @@ def checkPermission(repository, branch, user, group):
                 if accepted: return (True, message)
             elif line.startswith("-"):
                 (rejected, message) = matches(line, repository, branch, user, group)
-                if rejected: return (False, "Nope.")
+                if rejected: return (False, message)
             else:
                 return (False, "Malformed configuration.")
         return (False, "Rejected by default.")
