@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="test.css">
+<title>List of tests</title>
+</head>
+<body>
+
+
+<header>
+<div class="content">
+<h1><a class="homelink" href=".">Commit Stop</a></h1>
+<h2>Manage Push Permissions</h2>
+
+<a class="button" href="https://github.com/his-eg/postsai-commitstop">GitHub</a>
+<a class="button" href="tests.html">Tests</a>
+<a class="button download" href="https://github.com/his-eg/postsai-commitstop">Download</a>
+
+</div>
+</header>
+
+<div class="content">
+
+<section>
+<h3>List of tests</h3>
+<br>
+
+<table class="table table-bordered">
+<tr class="th">
+<th>#</th>
+<th>Name</th>
+<th>Acceptance Criteria</th>
+<th>Status</th>
+</tr>
+
+<tr>
+<td><a href="https://travis-ci.org/his-eg/commitstop">001</a></td>
+<td><a href="https://travis-ci.org/his-eg/commitstop">first matching rule is accept</a></td>
+<td>IF a developer commits to a branch in a repository<br>
+AND the first matching rule grants access,<br>
+THEN the commit is accepted granted and no further rules are processed.</td>
+<td>Unit</td>
+</tr>
+
+<tr>
+<td><a href="https://travis-ci.org/his-eg/commitstop">002</a></td>
+<td><a href="https://travis-ci.org/his-eg/commitstop">first matching rule is deny</a></td>
+<td>IF a developer commits to a branch in a repository<br>
+AND the first matching rule denies access,<br>
+THEN the commit is rejected and no further rules are processed.</td>
+<td>Unit</td>
+</tr>
+
+<tr>
+<td><a href="https://travis-ci.org/his-eg/commitstop">003</a></td>
+<td><a href="https://travis-ci.org/his-eg/commitstop">deny if no match</a></td>
+<td>IF a developer commits to a branch in a repository<br>
+AND the there is no matching rule<br>
+THEN the commit is rejected.</td>
+<td>Unit</td>
+</tr>
+
+<tr>
+<td><a href="test004-down.html">004</a></td>
+<td><a href="test004-down.html">service down</a></td>
+<td>IF a developer commits to a branch in a repository<br>
+AND the service does not respond or returns an error code<br>
+THEN the commit is rejected.</td>
+<td>Manual, TODO</td>
+</tr>
+
+<tr>
+<td><a href="test005-missing-permissions.html">005</a></td>
+<td><a href="test005-missing-permissions">missing configuration permissions</a></td>
+<td>IF someone tries to save a configuration change<br>
+AND the person is missing <code>repository_status_permission</code><br>
+THEN the configuration change is rejected.</td>
+<td>Manual, TODO</td>
+</tr>
+
+<tr>
+<td><a href="test006-conflict.html">006</a></td>
+<td><a href="test006-conflict.html">configuration edit conflict</a></td>
+<td>IF someone opens the configuration editor page and later saves a configuration change<br>
+AND another person has saved a configuration change in the mean time<br>
+THEN the configuration change is rejected.</td>
+<td>Manual, TODO</td>
+</tr>
+
+</table>
+</section>
+
+<footer>
+(C) Copyright 2017 HIS e. G.
+</footer>
+
+</div>
+</body>
+</html>
+

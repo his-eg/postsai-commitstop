@@ -66,15 +66,13 @@ def matches(line, repository, branch, user, group, commitmsg):
         pass
     else: return (False, badNews)
 
-    if bool(group):
-        if len(s) < 4 or matchesPattern(group, s[3]):
-            pass
-        else: return (False, badNews)
+    if len(s) < 4 or matchesPattern(group, s[3]):
+        pass
+    else: return (False, badNews)
 
-    if bool(commitmsg):
-        if len(s) < 5 or matchesPattern(commitmsg, s[4]):
-            pass
-        else: return (False, badNews)
+    if len(s) < 5 or matchesPattern(commitmsg, s[4]):
+        pass
+    else: return (False, badNews)
 
     return (True, goodNews)
 
@@ -109,7 +107,7 @@ def checkPrivilege2(arguments):
         if arguments.__contains__("group"):
             group = arguments["group"].value
         else:
-            group = None
+            group = ""
         if arguments.__contains__("group"):
             commitmsg = arguments["commitmsg"].value
         else:
