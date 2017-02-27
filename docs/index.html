@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Commit Stop Management</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="test.css">
+</head>
+<body>
+
+<header>
+<div class="content">
+<h1>Commit Stop</h1>
+<h2>Manage Push Permissions</h2>
+
+<a class="button" href="https://github.com/his-eg/postsai-commitstop">GitHub</a>
+<!-- <a class="button" href="tests.html">Tests</a> -->
+<a class="button download" href="https://github.com/his-eg/postsai-commitstop">Download</a>
+
+</div>
+</header>
+
+<div class="content">
+
+<section id="configuration">
+<h3>Configuration</h3>
+
+<p>The configuration of <i>Commit Stop</i> is done via a simple text configuration, accessable on the website.
+All changes are logged and an old configuration can be restored easily.</p>
+
+<p>Rules are processed from top to bottom. Processing is stopped at the first matching rule. The first token 
+specifies whether access is granted (+) or denied (+). The next tokens are regular expressions matching
+the repository name, branch name, user name, group (e. g. for LDAP based Git authentication) and commit comment.</p>
+
+<p>An optional message may be returned to the git/cvs client by defining it after the special delimiter |&lt;|.</p>
+
+<p>If no rule matches, access is denied. Therefore the following example has a catchall rule at the end to allow access.</p>  
+
+<pre>
+#   Repository                      Branch              User         Group   Comment      Optional message 
+# --------------------------------------------------------------------------------------------------------
+
+<span class="comment">#  This repository shall be ignored by restrictions defined below</span>
+<span class="allow">+  cs.sys.externalapps.browser     .*                   .*          .*       .*</span>            
+ 
+<span class="comment">#  Allow access to user abc on repository webapps, branch VERSION_2017_06</span>
+<span class="allow">+  webapps                         VERSION_2017_06      abc         .*       .*       </span> 
+ 
+<span class="comment">#  Disallow commits on branch VERSION_2017_06 of several repositories</span>
+<span class="disallow">-  cs.*|cm.*|rt.*|rm.*|webapps     VERSION_2017_06      .*          .*       .*         |&lt;| quality assurance phase</span> 
+ 
+<span class="comment">#  Fall through rule to allow access</span>
+<span class="allow">+   .*                             .*                   .*          .*       .*</span>
+</pre>
+
+</section>
+
+<section id="server-installation">
+<h3>Server Installation</h3>
+
+<p>The server component of <i>Commit Stop</i> is implemented as <a href="https://postsai.github.io">Postsai</a> extension. Therefore you need a working Postsai installation to begin with.</p>
+<ul>
+<li> Unzip commitstop.zip to the Postsai extensions-folder as new subfolder. 
+<li> Run <code>./install.py</code> in the Postsai root folder to update the database.
+<li> Edit <code>config.py</code> in the Postsai root folder to configure management permissions.
+</ul>
+
+<p>A simple configuration allows submission of commitstop configurations to any user authenticated by the webserver:</p>
+
+<pre>
+    # checks the permission to submit a new commit stop configuration
+    # (edit according to your needs)
+    def repository_status_permission():
+        return "REMOTE_USER" in os.environ
+</pre>
+
+<p>You can check other environment variables instead, for example the result from a webserver's LDAP authorization module. Or just hard code a list of trusted usernames.</p>
+
+</section>
+
+
+<section id="git-installation">
+<h3>Git Installation</h3>
+
+<p>In order to prevent pushes to a Git repository in accordance with the rules defined in <i>Commit Stop</i>, a Git hook is needed.</p>
+
+<p>Please copy the file hooks/checkcommitstop.py to your Git server as update hook and make sure it is executable (chmod +x).</p>
+
+<p>Alternatively, if you are using Gitolite, the script should be executed as VREF instead: Please copy hooks/checkcommitstop.py to
+/usr/share/gitolite3/VREF/  and make sure it is executable (chmod +x).</p>
+
+<p>The configuration is done as usual via gitolite.conf. For example:</p>
+
+<pre>
+    repo @all
+        option ENV.checkcommitstopurl = https://example.com/postsai/extensions/commitstop/api.py
+        - VREF/checkcommitstop = @all
+</pre>
+
+</section>
+
+
+<section id="cvs-installation">
+<h3>CVS Installation</h3>
+
+<p><i>Commit Stop</i> makes use of a CVS verifymsg hook in order to enforce the defined rules.</p>
+
+<p>Please edit CVSROOT/verifymsg to add the following line with an appropriate repository name and server url:
+<pre>.* /usr/local/bin/verifymsg.py --repository=nameofrepo 
+        --url=https://example.com/postsai/extensions/commitstop/api.py --msgfile=%l</pre>
+
+<p>Please note: verifymsg does only execute the first line that matches the module name. You cannot define multiple
+verifymsg hook without using a shell script as multiplexer.</p>
+
+
+
+</section>
+
+<footer>
+(C) Copyright 2017 HIS e. G.
+</footer>
+
+</div>
+</body>
+</html>
