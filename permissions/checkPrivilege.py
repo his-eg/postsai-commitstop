@@ -26,16 +26,14 @@ import sys
 import os
 import re
 
-
-from permissions.configDb import fetchLatestConfig 
-
-
-
 # ugly but necessary: also find packages at the root of the package tree
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-import config
-from backend.db import PostsaiDB
+try:
+    import config
+    from permissions.configDb import fetchLatestConfig
+except ImportError:
+    pass 
 
 from permissions.response import ret403
 from permissions.response import ret200
@@ -44,11 +42,12 @@ def matchesPattern(name, pattern):
     return bool(re.compile(pattern).match(name))
 
 
-def matches(line, repository, branch, user, group):
+def matches(line, repository, branch, user, group, commitmsg):
     line = line[1:]  # strip leading '+' or '-'
     s = line.split()
-    if(len(s) >= 5):
-        msg = " ".join(s[4:])
+    if(len(s) >= 6):
+        msg = " ".join(s[5:])
+        msg = msg[msg.find("|<| ") + 4:]
         badNews = msg
         goodNews = msg
     else:
@@ -72,30 +71,33 @@ def matches(line, repository, branch, user, group):
             pass
         else: return (False, badNews)
 
+    if bool(commitmsg):
+        if len(s) < 5 or matchesPattern(commitmsg, s[4]):
+            pass
+        else: return (False, badNews)
+
     return (True, goodNews)
 
 
-def checkLines(repository, branch, user, group):
-        conf = fetchLatestConfig()
-    
+def checkLines(conf, repository, branch, user, group, commitmsg):
         for line in conf.splitlines():
             line = line.lstrip()
             if line is "" or line.startswith("#"):
                 pass
             elif line.startswith("+"):
-                (accepted, message) = matches(line, repository, branch, user, group)
+                (accepted, message) = matches(line, repository, branch, user, group, commitmsg)
                 if accepted: return (True, message)
             elif line.startswith("-"):
-                (rejected, message) = matches(line, repository, branch, user, group)
+                (rejected, message) = matches(line, repository, branch, user, group, commitmsg)
                 if rejected: return (False, message)
             else:
                 return (False, "Malformed configuration.")
         return (False, "Rejected by default.")
-    
+
     
 def checkPrivilege2(arguments):    
     if not arguments.__contains__("repository"):
-        return(Falase, "no repository given")
+        return(False, "no repository given")
     elif not arguments.__contains__("branch"):
         return (False, "no branch given")
     elif not arguments.__contains__("user"):
@@ -106,9 +108,16 @@ def checkPrivilege2(arguments):
         user = arguments["user"].value
         if arguments.__contains__("group"):
             group = arguments["group"].value
-        else: group = None
-        return checkLines(repository, branch, user, group)
+        else:
+            group = None
+        if arguments.__contains__("group"):
+            commitmsg = arguments["commitmsg"].value
+        else:
+            commitmsg = ""
         
+        conf = fetchLatestConfig()
+        return checkLines(conf, repository, branch, user, group, commitmsg)
+
 
 def checkPrivilege(arguments):
         allowed, message = checkPrivilege2(arguments)
