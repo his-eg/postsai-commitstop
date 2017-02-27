@@ -37,6 +37,9 @@ class Extension:
         """install.py - hook invoked to create a stub configuration file"""
 
         print("# configuration for " + __name__)
+        print()
+        print('def repository_status_permission():')
+        print('    return True');
 
 
     def install_pre_database_structure_update(self):

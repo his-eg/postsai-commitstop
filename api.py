@@ -72,15 +72,17 @@ def storeConfig(arguments):
     elif not arguments.__contains__("configText"):
         sys.stderr.write("upsi!!.\n")
         ret403("no configText.\n")
-    else:
+    elif not config.repository_status_permission():
+        ret403("no permission to alter configuration.")
+    else:        
         sys.stderr.write(str(arguments) + "\n");
         db = PostsaiDB(vars(config))
         db.connect()
         sql = "INSERT INTO repository_status (`configtext`, `username`, `changecomment`, `changetime`) VALUES (%s, %s, %s, NOW());"
         data = (arguments["configText"], "Mr X", arguments["changeComment"])
         rows = db.query(sql, data, cursor_type=None)
-        #sys.stderr.write("SQL: " + sql + "\n")
-        #sys.stderr.write("ROWS: " + str(rows) + "\n")
+        # sys.stderr.write("SQL: " + sql + "\n")
+        # sys.stderr.write("ROWS: " + str(rows) + "\n")
         db.disconnect()
         ret200("stored")
 
