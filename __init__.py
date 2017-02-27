@@ -38,8 +38,17 @@ class Extension:
 
         print("# configuration for " + __name__)
         print()
-        print('def repository_status_permission():')
-        print('    return True');
+        print("""
+# checks the permission to submit a new commit stop configuration
+# (edit according to your needs)
+def repository_status_permission():
+    return True
+
+# returns the name of the user who is committing a new configuration
+# (edit according to your needs)
+def repository_status_username():
+    return "anonymous"
+""")
 
 
     def install_pre_database_structure_update(self):
@@ -54,7 +63,7 @@ class Extension:
         Extension can add additional tables here"""
 
         """ XXX hier die Erstellung der Datenbank """
-        print("Post database update adjustments for " + __name__+": creating table repository_status")
+        print("Post database update adjustments for " + __name__ + ": creating table repository_status")
 
         create_config_table_sql = """\
 CREATE TABLE IF NOT EXISTS repository_status (
