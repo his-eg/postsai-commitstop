@@ -4,7 +4,6 @@ from permissions.response import ret200
 import config
 
 
-
 def fetchLatestConfig():
     rows = fetchConfigs(1)
     if len(rows) < 1:
@@ -19,10 +18,21 @@ def fetchConfigs(maximum):
     """ get latest config """
     db = PostsaiDB(vars(config))
     db.connect()
-    sql = "SELECT configtext, username, changecomment, changetime FROM repository_status ORDER BY changetime DESC LIMIT " + str(int(maximum))
+    m = str(max(0, int(maximum)))
+    sql = "SELECT configtext, username, changecomment, changetime FROM repository_status ORDER BY changetime DESC LIMIT " + m
     rows = db.query(sql, None, cursor_type=None)
     db.disconnect()
     return rows
+
+
+def writeConfigToDB(data):        
+        db = PostsaiDB(vars(config))
+        db.connect()
+        sql = "INSERT INTO repository_status (`configtext`, `username`, `changecomment`, `changetime`) VALUES (%s, %s, %s, NOW());"
+        rows = db.query(sql, data, cursor_type=None)
+        db.disconnect()
+        ret200("stored")
+
 
 
 def mock():

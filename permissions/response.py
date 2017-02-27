@@ -8,8 +8,10 @@ def ret200(cause):
 def ret403(cause):
     retHttp(403,cause)
 
+
 def ret400(cause):
     retHttp(400,cause)
+
 
 def retHttp(status, cause):
     print("Status: " + str(status) + " Ok\r")

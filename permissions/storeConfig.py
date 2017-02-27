@@ -1,5 +1,3 @@
-#! /usr/bin/python
-
 # The MIT License (MIT)
 # Copyright (c) 2016 Postsai
 #
@@ -22,30 +20,35 @@
 # DEALINGS IN THE SOFTWARE.
 
 
-import sys
-import os
-import json
 import cgi
+import datetime
+import json
+import sys
+from os import environ
+import os
 
 
 # ugly but necessary: also find packages at the root of the package tree
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
+import config
+from backend.db import PostsaiDB
 
-from permissions.storeConfig import storeConfig
-from permissions.checkPrivilege import checkPrivilege
-from permissions.sendHistory import sendHistory
+from permissions.configDb import writeConfigToDB
+from permissions.response import ret403
+from permissions.response import ret200
 
 
 
-
-
-if __name__ == '__main__':
-    if os.environ.has_key('REQUEST_METHOD') and os.environ['REQUEST_METHOD'] == "POST":
-        storeConfig(json.loads(sys.stdin.read()))
-    else:
-        arguments = cgi.FieldStorage()
-        if arguments.__contains__("history"):
-            sendHistory(arguments["history"].value)
-        else: checkPrivilege(arguments)
-    
+def storeConfig(arguments):
+    if not arguments.__contains__("changeComment"):
+        sys.stderr.write("upsi!.\n")
+        ret403("no changeComment")
+    elif not arguments.__contains__("configText"):
+        sys.stderr.write("upsi!!.\n")
+        ret403("no configText.\n")
+    elif not config.repository_status_permission():
+        ret403("no permission to alter configuration.")
+    else:        
+        data = (arguments["configText"], config.repository_status_username(), arguments["changeComment"])
+        writeConfigToDB(data)

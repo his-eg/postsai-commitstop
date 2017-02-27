@@ -22,9 +22,9 @@ export class ConfigurationsService {
 
     constructor( private http: Http ) { }
 
-    private baseUrl = '/~hsi/postsai/extensions/postsai-commitstop/api.py';
+    private baseUrl = '../../api.py'; // TODO URL to web api
 
-    private configurationsUrl = '/~hsi/postsai/extensions/postsai-commitstop/api.py?history=100';  // TODO URL to web api
+    private configurationsUrl = this.baseUrl + '?history=100';  
 
 
     getConfigurations(): Promise<Submission[]> {
@@ -65,7 +65,7 @@ export class ConfigurationsService {
         // INSERT INTO `postsaidb`.`repository_status` (`configtext`, `username`, `changecomment`, `changetime`) VALUES ('+ oink', 'einer', '*kommentier*', '2004-01-23 17:00:00');        
         // this won't actually work because the StarWars API doesn't 
         // is read-only. But it would look like this:
-        console.error(submission.toString());
+        console.error( submission.toString() );
         return this.http.post( `${this.baseUrl}?activate=1`, JSON.stringify( submission ), { headers: this.getHeaders() }).toPromise();
     }
 
