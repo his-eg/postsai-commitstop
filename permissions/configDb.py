@@ -5,6 +5,7 @@ import config
 
 
 def fetchLatestConfig():
+    """ returns the currently active configuration """
     rows = fetchConfigs(1)
     if len(rows) < 1:
         return "- .* .* .* .* Cannot fetch config from database"
@@ -15,7 +16,8 @@ def fetchLatestConfig():
     
     
 def fetchConfigs(maximum):
-    """ get latest config """
+    """ returns the $maximum configurations that were recently active  """
+        
     db = PostsaiDB(vars(config))
     db.connect()
     m = str(max(0, int(maximum)))
@@ -25,13 +27,14 @@ def fetchConfigs(maximum):
     return rows
 
 
-def writeConfigToDB(data):        
-        db = PostsaiDB(vars(config))
-        db.connect()
-        sql = "INSERT INTO repository_status (`configtext`, `username`, `changecomment`, `changetime`) VALUES (%s, %s, %s, NOW());"
-        rows = db.query(sql, data, cursor_type=None)
-        db.disconnect()
-        ret200("stored")
+def writeConfigToDB(data):
+    """ stores a configuration in the database and makes it the active configuration """
+    db = PostsaiDB(vars(config))
+    db.connect()
+    sql = "INSERT INTO repository_status (`configtext`, `username`, `changecomment`, `changetime`) VALUES (%s, %s, %s, NOW());"
+    rows = db.query(sql, data, cursor_type=None)
+    db.disconnect()
+    ret200("stored")
 
 
 

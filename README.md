@@ -15,3 +15,17 @@ For example, to use the commitstop extension for all CVS modules in the current 
 ~~~~
   .* /usr/local/bin/verifymsg.py --repository=repo --url=https://example.com/postsai/extensions/commitstop/api.py --msgfile=%l
 ~~~~
+
+
+## Frontend for viewing and updating configurations 
+
+
+The source code of the web frontend is located under the directory ./frontend. After building it with angular-cli using the command
+
+ng build -w -prod --bh ""
+
+, it can be invoked by opening the location
+
+$domain/postsai/extensions/postsai-commitstop/frontend/dist/
+
+where $domain is the base url of the postsai installation.

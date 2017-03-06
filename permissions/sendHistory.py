@@ -9,6 +9,8 @@ from permissions.configDb import fetchConfigs
 
 
 def sendHistory(maximumNumber):
+    """ sends the last $maximimNumber configurations to the client """
+    
     try:
          maximum = int(maximumNumber)
     except ValueError:

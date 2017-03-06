@@ -41,11 +41,11 @@ from permissions.response import ret200
 
 
 def storeConfig(arguments):
+    """ store a new configuration in the database """
+    
     if not arguments.__contains__("changeComment"):
-        sys.stderr.write("upsi!.\n")
         ret403("no changeComment")
     elif not arguments.__contains__("configText"):
-        sys.stderr.write("upsi!!.\n")
         ret403("no configText.\n")
     elif not config.repository_status_permission():
         ret403("no permission to alter configuration.")

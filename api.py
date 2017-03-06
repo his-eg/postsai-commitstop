@@ -39,7 +39,10 @@ from permissions.sendHistory import sendHistory
 
 
 
-
+# dispatch call: can be 
+# - a POST request that updates the configuration, 
+# - a GET request that fetches the history of configuration changes, or
+# - a GET request that queries the curently active configuration whether a commit is allowed 
 if __name__ == '__main__':
     if os.environ.has_key('REQUEST_METHOD') and os.environ['REQUEST_METHOD'] == "POST":
         storeConfig(json.loads(sys.stdin.read()))
