@@ -1,1 +1,1 @@
-window.console && console.log("extensionstub loaded")
+window.console && console.log("extension postsai-commitstop loaded")

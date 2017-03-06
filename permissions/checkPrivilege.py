@@ -43,6 +43,8 @@ def matchesPattern(name, pattern):
 
 
 def matches(line, repository, branch, user, group, commitmsg):
+    """ parses a configuration line and returns whether it matches the current commit metadata"""
+    
     line = line[1:]  # strip leading '+' or '-'
     s = line.split()
     if(len(s) >= 6):
@@ -118,8 +120,9 @@ def checkPrivilege2(arguments):
 
 
 def checkPrivilege(arguments):
-        allowed, message = checkPrivilege2(arguments)
-        if allowed:
-            ret200(message)
-        else: ret403(message)  
+    """ interprets a GET request and checks the current permissions accordingly """
+    allowed, message = checkPrivilege2(arguments)
+    if allowed:
+        ret200(message)
+    else: ret403(message)  
         

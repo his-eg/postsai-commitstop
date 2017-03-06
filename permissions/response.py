@@ -21,6 +21,8 @@ def retHttp(status, cause):
     
 
 def retJson(object):
+    """ send a JSON onject to the client """
+    
     print("Status: 200 Ok\r")
     #print("Content-Type: text/plain; charset='utf-8'\r")
     print("Content-Type: application/json; charset='utf-8'\r")

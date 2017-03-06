@@ -34,7 +34,7 @@ class Extension:
 
 
     def install_print_config_stub(self):
-        """install.py - hook invoked to create a stub configuration file"""
+        """adds stubs for retrieving the current user name and for permission checking to the config file"""
 
         print("# configuration for " + __name__)
         print()
