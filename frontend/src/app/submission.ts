@@ -3,9 +3,9 @@ import { Configuration } from './configuration'
 export class Submission {
     config: Configuration;
     username: string;
-    changetime: Date;
+    changetime: string;
 
-    constructor( config: Configuration, user: string, time: Date ) {
+    constructor( config: Configuration, user: string, time: string ) {
         this.config = config;
         this.username = user;
         this.changetime = time;

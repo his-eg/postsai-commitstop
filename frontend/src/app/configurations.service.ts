@@ -9,12 +9,21 @@ import {Configuration} from './configuration'
 
 
 
-const MOCK = [
-    new Submission( new Configuration( "conftext1", "confcomment1" ), "Karl-Heinz", new Date( "2017-01-13" ) ),
-    new Submission( new Configuration( "conftext2", "confcomment2" ), "Hans-Horst", new Date( "2017-01-14" ) ),
-    new Submission( new Configuration( "conftext3", "confcomment3" ), "Rüdiger-Maria", new Date( "2017-01-15" ) )
-];
 
+
+function dateToStr( d: Date ) {
+    return d.toLocaleString()
+}
+
+function formatDate( str: string ) {
+    return dateToStr( new Date( str ) );
+}
+
+const MOCK = [
+    new Submission( new Configuration( "conftext1", "confcomment1" ), "Karl-Heinz", formatDate( "2017-01-13" ) ),
+    new Submission( new Configuration( "conftext2", "confcomment2" ), "Hans-Horst", formatDate( "2017-01-14" ) ),
+    new Submission( new Configuration( "conftext3", "confcomment3" ), "Rüdiger-Maria", formatDate( "2017-01-15" ) )
+];
 
 
 @Injectable()
@@ -24,7 +33,7 @@ export class ConfigurationsService {
 
     private baseUrl = '../../api.py'; // TODO URL to web api
 
-    private configurationsUrl = this.baseUrl + '?history=100';  
+    private configurationsUrl = this.baseUrl + '?history=100';
 
 
     getConfigurations(): Promise<Submission[]> {
@@ -43,17 +52,15 @@ export class ConfigurationsService {
         return confs
     }
 
-
     private translate( o: string[][] ): Submission[] {
         let submissions = [];
         for ( var i = 0; i < o.length; i++ ) {
             var row = o[i];
-            let sumi = new Submission( new Configuration( row[0], row[2] ), row[1], new Date( row[3] ) );
+            let sumi = new Submission( new Configuration( row[0], row[2] ), row[1], dateToStr( new Date( row[3] ) ) );
             submissions.push( sumi );
         }
         return submissions
     }
-
 
     private handleError( error: any ): Promise<any> {
         alert( 'error retrieving data: ' + error )
