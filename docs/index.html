@@ -22,6 +22,21 @@
 
 <div class="content">
 
+<section id="intro">
+<h3>Commit Stop</h3>
+
+<p><i>Commit Stop</i> allows the management of push permissions for source code repositories. 
+It integrates with both Git and CVS. Other source code repositories may be integrated via
+custom hooks based on <i>Commit Stop</i>'s REST service.</p>  
+
+<p><i>Commit Stop</i> is commonly used to prevent pushes (commits) to sensitive branches,
+unless there is a good reason for it. It allows the definition of permission rules via a simple
+website. Those rules may check for the name of the repository, branch, user, group and the content
+of the commit message.</p>
+
+
+</section>
+
 <section id="configuration">
 <h3>Configuration</h3>
 
@@ -111,9 +126,17 @@ the repository name, branch name, user name, group (e. g. for LDAP based Git aut
 
 <p>Please note: verifymsg does only execute the first line that matches the module name. You cannot define multiple
 verifymsg hook without using a shell script as multiplexer.</p>
+</section>
 
+<section id="rest">
+<h3>Custom Integration</h3>
 
+<p>The endpoint for <i>Commit Stop</i>'s REST service is <code>https://[server]/postsai/extensions/commitstop/api.py</code>.
+The following URL-parameters are understood: repository, branch, user, group amd commitmsg.  
 
+<p><i>Commit Stop</i> uses normal HTTP status code to communicate whether the actions is allowed or not: 
+200 means permisison is granted and 403 means that permission was denied. The body of the HTTP response
+may contain an explanation as plain text.</p>
 </section>
 
 <footer>
