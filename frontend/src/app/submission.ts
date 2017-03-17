@@ -4,11 +4,14 @@ export class Submission {
     config: Configuration;
     username: string;
     changetime: string;
+    timestamp : number;
+ 
 
-    constructor( config: Configuration, user: string, time: string ) {
+    constructor( config: Configuration, user: string, time: string, timestamp:number ) {
         this.config = config;
         this.username = user;
         this.changetime = time;
+        this.timestamp = timestamp;
     }
 
     toString() {

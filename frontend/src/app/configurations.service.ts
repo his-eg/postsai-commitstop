@@ -19,12 +19,12 @@ function formatDate( str: string ) {
     return dateToStr( new Date( str ) );
 }
 
-const MOCK = [
+/*const MOCK = [
     new Submission( new Configuration( "conftext1", "confcomment1" ), "Karl-Heinz", formatDate( "2017-01-13" ) ),
     new Submission( new Configuration( "conftext2", "confcomment2" ), "Hans-Horst", formatDate( "2017-01-14" ) ),
     new Submission( new Configuration( "conftext3", "confcomment3" ), "Rüdiger-Maria", formatDate( "2017-01-15" ) )
 ];
-
+*/
 
 @Injectable()
 export class ConfigurationsService {
@@ -37,12 +37,7 @@ export class ConfigurationsService {
 
 
     getConfigurations(): Promise<Submission[]> {
-        let mock = false;
-        if ( mock )
-            return Promise.resolve( MOCK ).then( x => x );
-
-
-        let confs = this.http.get( this.configurationsUrl )
+          let confs = this.http.get( this.configurationsUrl )
             .toPromise()
             .then( response =>
                 this.translate( response.json() )
@@ -56,7 +51,9 @@ export class ConfigurationsService {
         let submissions = [];
         for ( var i = 0; i < o.length; i++ ) {
             var row = o[i];
-            let sumi = new Submission( new Configuration( row[0], row[2] ), row[1], dateToStr( new Date( row[3] ) ) );
+            let conf = new Configuration( row[0], row[2] );
+            let date = new Date(row[3]);
+            let sumi = new Submission(conf , row[1], dateToStr(  date ), date.getTime() );
             submissions.push( sumi );
         }
         return submissions

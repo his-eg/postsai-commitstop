@@ -58,6 +58,8 @@ export class AppComponent implements OnInit {
         if ( this.rows.length > 0 && this.currentConfig.sameAs( this.rows[0].config ) )
             alert( "Not saved. Configuration is already active." );
         else if ( confirm( "Save new configuration?" ) ) {
+
+            let newestInLast: number = ( this.rows.length > 0 ) ? this.rows[0].timestamp : 42;
             let ths = this;
             let added = this.currentConfig.clone();
             this.configurationsService.saveConfig( added ).then(
@@ -66,6 +68,9 @@ export class AppComponent implements OnInit {
                 }
             ).then( rows => {
                 ths.setRows( rows );
+                let newestInThis: number = ( this.rows.length > 1 ) ? this.rows[1].timestamp : 42;
+                if ( newestInThis != newestInLast )
+                    alert( "Changes have been submitted concurrently. Please revisit the configuration." );
             },
                 function( data ) {
                     alert( "Could not save configuration.\n\nMessage returned by server: '" + data + "'" );
