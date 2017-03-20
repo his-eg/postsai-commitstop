@@ -35,8 +35,8 @@ try:
 except ImportError:
     pass 
 
-from permissions.response import ret403
-from permissions.response import ret200
+from response import ret403
+from response import ret200
 
 def matchesPattern(name, pattern):
     return bool(re.compile(pattern).match(name))

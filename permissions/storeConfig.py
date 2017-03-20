@@ -53,9 +53,9 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")
 import config
 from backend.db import PostsaiDB
 
-from permissions.configDb import writeConfigToDB
-from permissions.response import ret403
-from permissions.response import ret200
+from configDb import writeConfigToDB
+from response import ret403
+from response import ret200
 
 
 

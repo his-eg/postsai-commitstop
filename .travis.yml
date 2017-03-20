@@ -1,0 +1,16 @@
+language: python
+python:
+  - "2.7"
+install:
+  - pip install MySQL-python coverage codecov
+before_script:
+  - wget https://github.com/postsai/postsai/releases/download/v0.9.7/postsai-0.9.7.zip
+  - unzip postsai-*.zip 
+  - mv postsai/backend .
+  - export PYTHONPATH=$PYTHONPATH:$(pwd)
+  - echo "#!/usr/bin/python" > config.py
+script: nosetests -v --with-coverage --cover-branch --cover-erase --cover-package api_test.py
+after_success:
+  - codecov
+
+

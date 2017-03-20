@@ -20,11 +20,11 @@
 # DEALINGS IN THE SOFTWARE.
 
 
-from permissions.response import retJson
-from permissions.response import ret200
-from permissions.response import ret403
-from permissions.response import ret400
-from permissions.configDb import fetchConfigs
+from response import retJson
+from response import ret200
+from response import ret403
+from response import ret400
+from configDb import fetchConfigs
 
 
 

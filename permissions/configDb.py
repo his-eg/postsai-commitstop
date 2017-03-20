@@ -20,7 +20,7 @@
 # DEALINGS IN THE SOFTWARE.
 
 from backend.db import PostsaiDB
-from permissions.response import ret200
+from response import ret200
 import config
 
 
