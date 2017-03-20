@@ -1,1 +1,0 @@
-window.console && console.log("extension postsai-commitstop loaded")
