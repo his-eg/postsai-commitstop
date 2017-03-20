@@ -7,4 +7,4 @@ For example only certain people may be allowed to commit directly to Git master.
 commits to a certain release branch are only allowed with special information in the 
 commit message.
 
-Please see [https://hiseg.github.io/commitstop](https://hiseg.github.com/commitstop) for details.  
+Please see [https://his-eg.github.io/postsai-commitstop/](https://his-eg.github.io/postsai-commitstop/) for details.  
