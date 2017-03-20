@@ -5,7 +5,7 @@ html, body {
 	background-color: #EEE;
 }
 header {
-	background-color: #b3d4fc;
+	background-color: #006ab2;
 	color: #FFF;
 	padding: 3em 0em;
 	box-shadow: 0px 3px 3px 0px #333;
@@ -25,7 +25,7 @@ a.button {
 	text-align: center;
 }
 a.button:hover {
-	background-color: #333;
+	background-color: #b3d4fc;
 }
 .screenshot {
 	max-width: 850px;
