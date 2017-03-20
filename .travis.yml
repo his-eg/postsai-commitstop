@@ -9,7 +9,7 @@ before_script:
   - mv postsai/backend .
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
   - echo "#!/usr/bin/python" > config.py
-script: nosetests -v --with-coverage --cover-branch --cover-erase --cover-package api_test.py
+script: nosetests -v --with-coverage --cover-branch --cover-erase --cover-package permissions
 after_success:
   - codecov
 
