@@ -24,7 +24,7 @@ import datetime
 
 def ret200(cause):
     retHttp(200,cause)
-    
+
 
 def ret403(cause):
     retHttp(403,cause)
@@ -39,9 +39,9 @@ def retHttp(status, cause):
     print("Content-Type: text/plain; charset='utf-8'\r")
     print("\r")
     print(cause)
-    
 
-def retJson(object):
+
+def retJson(data):
     """ send a JSON onject to the client """
     
     print("Status: 200 Ok\r")
@@ -55,6 +55,6 @@ def retJson(object):
         or isinstance(obj, datetime.date)
         else None
         )
-    jsonString = json.dumps(object, default=date_handler)
+    jsonString = json.dumps(data, default=date_handler)
     print(jsonString)
     

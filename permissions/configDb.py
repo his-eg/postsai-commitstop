@@ -33,16 +33,16 @@ def fetchLatestConfig():
 
     # return mock()
     return latestConfig[0]
-    
-    
+
+
 def fetchConfigs(maximum):
     """ returns the $maximum configurations that were recently active  """
-        
+
     db = PostsaiDB(vars(config))
     db.connect()
-    m = str(max(0, int(maximum)))
-    sql = "SELECT configtext, username, changecomment, changetime FROM repository_status ORDER BY changetime DESC LIMIT " + m
-    rows = db.query(sql, None, cursor_type=None)
+    m = max(0, int(maximum))
+    sql = "SELECT configtext, username, changecomment, changetime FROM repository_status ORDER BY changetime DESC LIMIT %s"
+    rows = db.query(sql, [m])
     db.disconnect()
     return rows
 
@@ -52,7 +52,7 @@ def writeConfigToDB(data):
     db = PostsaiDB(vars(config))
     db.connect()
     sql = "INSERT INTO repository_status (`configtext`, `username`, `changecomment`, `changetime`) VALUES (%s, %s, %s, NOW());"
-    rows = db.query(sql, data, cursor_type=None)
+    db.query(sql, data, cursor_type=None)
     db.disconnect()
     ret200("stored")
 
@@ -60,7 +60,7 @@ def writeConfigToDB(data):
 
 def mock():
     """ mock """
-    
+
     return """\
 # ---------------------------------------------------------------------------------------------------
 #   Repository                      Branch              Benutzer         Gruppe          Meldung
@@ -75,4 +75,4 @@ def mock():
 
 #  Wenn bisher kein Regel gegriffen hat, Zugriff erlauben (Die normaler Zugriffsrechte wurden bereits im Vorfeld geprueft)
 +   .*                              .*                    .*               .*
-""" 
+"""

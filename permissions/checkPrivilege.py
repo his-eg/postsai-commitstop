@@ -20,8 +20,6 @@
 # DEALINGS IN THE SOFTWARE.
 
 
-import cgi
-import json
 import sys
 import os
 import re
@@ -33,7 +31,7 @@ try:
     import config
     from permissions.configDb import fetchLatestConfig
 except ImportError:
-    pass 
+    pass
 
 from response import ret403
 from response import ret200
@@ -44,7 +42,7 @@ def matchesPattern(name, pattern):
 
 def matches(line, repository, branch, user, group, commitmsg):
     """ parses a configuration line and returns whether it matches the current commit metadata"""
-    
+
     line = line[1:]  # strip leading '+' or '-'
     s = line.split()
     if(len(s) >= 6):
@@ -94,8 +92,8 @@ def checkLines(conf, repository, branch, user, group, commitmsg):
                 return (False, "Malformed configuration.")
         return (False, "Rejected by default.")
 
-    
-def checkPrivilege2(arguments):    
+
+def checkPrivilege2(arguments):
     if not arguments.__contains__("repository"):
         return(False, "no repository given")
     elif not arguments.__contains__("branch"):
@@ -124,5 +122,5 @@ def checkPrivilege(arguments):
     allowed, message = checkPrivilege2(arguments)
     if allowed:
         ret200(message)
-    else: ret403(message)  
-        
+    else: ret403(message)
+

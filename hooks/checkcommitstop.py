@@ -2,7 +2,7 @@
 
 '''
  -- commit permission check for Git
- 
+
 If you use gitolite, please copy this script to /usr/share/gitolite3/VREF/ and name it checkcommitstop
 Add the following section to your gitolite.conf to invoke it
 
@@ -46,7 +46,7 @@ class PermissionChecker:
         """parse command line arguments"""
 
         self.ref = sys.argv[1]
-        if len(sys.argv) > 4:   # In Gitolite params 4 and 5 are like 2 and 3, but with 00000 replaced by the SHA1 for an empty tree 
+        if len(sys.argv) > 4:   # In Gitolite params 4 and 5 are like 2 and 3, but with 00000 replaced by the SHA1 for an empty tree
             self.oldtree = sys.argv[4]
             self.newtree = sys.argv[5]
         else:

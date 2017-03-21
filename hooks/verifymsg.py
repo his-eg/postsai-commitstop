@@ -2,7 +2,7 @@
 
 '''
  -- commit permission check for CVS
- 
+
 This script should be invoked by the verifymsg file in CVSROOT.
 
 .* /usr/local/bin/verifymsg.py --repository=nameofrepo --url=https://example.com/postsai/extensions/commitstop/api.py --msgfile=%l

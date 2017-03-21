@@ -58,10 +58,8 @@ def repository_status_permission():
 
 
     def install_post_database_structure_update(self):
-        """install.py - hook invoked after the main database structure has been created or updated. 
+        """install.py - hook invoked after the main database structure has been created or updated.
         Extension can add additional tables here"""
-
-        """ Hier die Erstellung der Datenbank """
 
         create_config_table_sql = """\
 CREATE TABLE IF NOT EXISTS repository_status (

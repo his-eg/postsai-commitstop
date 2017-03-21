@@ -21,9 +21,6 @@
 
 
 from response import retJson
-from response import ret200
-from response import ret403
-from response import ret400
 from configDb import fetchConfigs
 
 
@@ -32,7 +29,7 @@ def sendHistory(maximumNumber):
     """ sends the last $maximimNumber configurations to the client """
     
     try:
-         maximum = int(maximumNumber)
+        maximum = int(maximumNumber)
     except ValueError:
         maximum = 100
     configs = fetchConfigs(maximum);
