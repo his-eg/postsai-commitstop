@@ -36,8 +36,8 @@
 </tr>
 
 <tr>
-<td><a href="https://travis-ci.org/his-eg/commitstop">001</a></td>
-<td><a href="https://travis-ci.org/his-eg/commitstop">first matching rule is accept</a></td>
+<td><a href="https://travis-ci.org/his-eg/postsai-commitstop">001</a></td>
+<td><a href="https://travis-ci.org/his-eg/postsai-commitstop">first matching rule is accept</a></td>
 <td>IF a developer commits to a branch in a repository<br>
 AND the first matching rule grants access,<br>
 THEN the commit is accepted granted and no further rules are processed.</td>
@@ -45,8 +45,8 @@ THEN the commit is accepted granted and no further rules are processed.</td>
 </tr>
 
 <tr>
-<td><a href="https://travis-ci.org/his-eg/commitstop">002</a></td>
-<td><a href="https://travis-ci.org/his-eg/commitstop">first matching rule is deny</a></td>
+<td><a href="https://travis-ci.org/his-eg/postsai-commitstop">002</a></td>
+<td><a href="https://travis-ci.org/his-eg/postsai-commitstop">first matching rule is deny</a></td>
 <td>IF a developer commits to a branch in a repository<br>
 AND the first matching rule denies access,<br>
 THEN the commit is rejected and no further rules are processed.</td>
@@ -54,8 +54,8 @@ THEN the commit is rejected and no further rules are processed.</td>
 </tr>
 
 <tr>
-<td><a href="https://travis-ci.org/his-eg/commitstop">003</a></td>
-<td><a href="https://travis-ci.org/his-eg/commitstop">deny if no match</a></td>
+<td><a href="https://travis-ci.org/his-eg/postsai-commitstop">003</a></td>
+<td><a href="https://travis-ci.org/his-eg/postsai-commitstop">deny if no match</a></td>
 <td>IF a developer commits to a branch in a repository<br>
 AND the there is no matching rule<br>
 THEN the commit is rejected.</td>
@@ -68,16 +68,16 @@ THEN the commit is rejected.</td>
 <td>IF a developer commits to a branch in a repository<br>
 AND the service does not respond or returns an error code<br>
 THEN the commit is rejected.</td>
-<td>Manual, TODO</td>
+<td>Manual</td>
 </tr>
 
 <tr>
 <td><a href="test005-missing-permissions.html">005</a></td>
-<td><a href="test005-missing-permissions">missing configuration permissions</a></td>
+<td><a href="test005-missing-permissions.html">missing configuration permissions</a></td>
 <td>IF someone tries to save a configuration change<br>
 AND the person is missing <code>repository_status_permission</code><br>
 THEN the configuration change is rejected.</td>
-<td>Manual, TODO</td>
+<td>Manual</td>
 </tr>
 
 <tr>
@@ -85,8 +85,8 @@ THEN the configuration change is rejected.</td>
 <td><a href="test006-conflict.html">configuration edit conflict</a></td>
 <td>IF someone opens the configuration editor page and later saves a configuration change<br>
 AND another person has saved a configuration change in the mean time<br>
-THEN the configuration change is rejected.</td>
-<td>Manual, TODO</td>
+THEN the configuration change is saved but a warning is displayed.</td>
+<td>Manual</td>
 </tr>
 
 </table>
