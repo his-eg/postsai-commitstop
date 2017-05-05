@@ -19,17 +19,12 @@ import re
 import subprocess
 import sys
 import urlparse
+import urllib
 
 try:
     from subprocess import DEVNULL # py3k
 except ImportError:
     DEVNULL = open(os.devnull, 'wb')
-
-
-def urlencode(value):
-    """ very simple url encoding that works with really old python versions"""
-
-    return value.replace("%", "%25").replace("&", "%26").replace("=", "%3D").replace("\r\n", "%32").replace("\n", "%32")
 
 
 class PermissionChecker:
@@ -81,7 +76,7 @@ class PermissionChecker:
             if "Sticky Tag:" in row:
                 m = re.search("[ \t]*Sticky Tag:[ \t]*([^( \t]*)", row)
                 branch = m.group(1)
-                if branch != "(none)":
+                if branch != "(none)" and branch != "":
                     self.branch = branch
                 return
 
@@ -95,10 +90,10 @@ class PermissionChecker:
     def generate_query_string(self):
         """generates the url query string based on previously read information"""
 
-        return "repository=" + urlencode(self.repository) \
-            + "&branch=" + urlencode(self.branch) \
-            + "&user=" + urlencode(self.user) \
-            + "&commitmsg=" + urlencode(self.commitmsg[0:7000])
+        return "repository=" + urllib.quote(self.repository) \
+            + "&branch=" + urllib.quote(self.branch) \
+            + "&user=" + urllib.quote(self.user) \
+            + "&commitmsg=" + urllib.quote(self.commitmsg[0:7000])
 
 
     def query_webservice(self):

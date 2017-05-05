@@ -22,17 +22,12 @@ import os
 import subprocess
 import sys
 import urlparse
+import urllib
 
 try:
     from subprocess import DEVNULL # py3k
 except ImportError:
     DEVNULL = open(os.devnull, 'wb')
-
-
-def urlencode(value):
-    """ very simple url encoding that works with really old python versions"""
-
-    return value.replace("%", "%25").replace("&", "%26").replace("=", "%3D").replace("\r\n", "%32").replace("\n", "%32").replace(" ", "%32")
 
 
 class PermissionChecker:
@@ -111,13 +106,13 @@ class PermissionChecker:
     def generate_query_string(self):
         """generates the url query string based on previously read information"""
 
-        url = "repository=" + urlencode(self.repository) \
-            + "&branch=" + urlencode(self.branch) \
-            + "&user=" + urlencode(self.user)
+        url = "repository=" + urllib.quote(self.repository) \
+            + "&branch=" + urllib.quote(self.branch) \
+            + "&user=" + urllib.quote(self.user)
         if self.group != "":
-            url = url + "&group=" + urlencode(self.group)
+            url = url + "&group=" + urllib.quote(self.group)
             
-        url = url + "&commitmsg=" + urlencode(self.commitmsg[0:7000])
+        url = url + "&commitmsg=" + urllib.quote(self.commitmsg[0:7000])
         return url
 
 
