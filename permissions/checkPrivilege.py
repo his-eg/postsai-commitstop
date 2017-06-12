@@ -108,7 +108,7 @@ def checkPrivilege2(arguments):
             group = arguments["group"].value
         else:
             group = ""
-        if arguments.__contains__("group"):
+        if arguments.__contains__("commitmsg"):
             commitmsg = arguments["commitmsg"].value
         else:
             commitmsg = ""
