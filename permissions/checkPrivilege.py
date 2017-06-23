@@ -79,8 +79,10 @@ def matches(line, repository, branch, user, group, commitmsg):
 
 def checkLines(conf, repository, branch, user, group, commitmsg):
         for line in conf.splitlines():
-            line = line.lstrip()
-            if line is "" or line.startswith("#"):
+            line = line.strip()
+            # With Windows clients, empty lines were not recognized.
+            # This might be due to some strange Unicode whitespace characters that require decoding
+            if line is "" or line.decode(encoding='UTF-8',errors='ignore').isspace() or line.startswith("#"):
                 pass
             elif line.startswith("+"):
                 (accepted, message) = matches(line, repository, branch, user, group, commitmsg)
