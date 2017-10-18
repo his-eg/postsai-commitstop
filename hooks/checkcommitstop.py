@@ -112,7 +112,7 @@ class PermissionChecker:
         if self.group != "":
             url = url + "&group=" + urllib.quote(self.group)
             
-        url = url + "&commitmsg=" + urllib.quote(self.commitmsg[0:7000])
+        url = url + "&commitmsg=" + urllib.quote(self.commitmsg[0:3000])
         return url
 
 
@@ -132,7 +132,8 @@ class PermissionChecker:
             headers = {"Content-Type": "application/json"}
             if not u.username == None and not u.password == None:
                 headers["Authorization"] = "Basic " + base64.b64encode(u.username + ":" + u.password)
-            con.request("GET", url + urlsuffix, None, headers)
+            url_prefix = u.scheme + "://" + u.hostname + u.path
+            con.request("GET", url_prefix + urlsuffix, None, headers)
 
             # Verify response, forward messages, set exit code
             response = con.getresponse()

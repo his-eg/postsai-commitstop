@@ -112,7 +112,8 @@ class PermissionChecker:
             headers = {"Content-Type": "application/json"}
             if not u.username == None and not u.password == None:
                 headers["Authorization"] = "Basic " + base64.b64encode(u.username + ":" + u.password)
-            con.request("GET", url + urlsuffix, None, headers)
+            url_prefix = u.scheme + "://" + u.hostname + u.path
+            con.request("GET", url_prefix + urlsuffix, None, headers)
 
             # Verify response, forward messages, set exit code
             response = con.getresponse()
