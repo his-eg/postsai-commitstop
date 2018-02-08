@@ -11,7 +11,6 @@ repo @all
     - VREF/COMMIT-STOP-CHECK = @all
 
 
-
 @author:     nhnb
 @license:    MIT
 '''
@@ -19,6 +18,7 @@ repo @all
 import base64
 import httplib
 import os
+import re
 import subprocess
 import sys
 import urlparse
@@ -47,7 +47,7 @@ class PermissionChecker:
         else:
             self.oldtree = sys.argv[2]
             self.newtree = sys.argv[3]
-            
+
 
 
     def read_urls(self):
@@ -55,18 +55,32 @@ class PermissionChecker:
 
         if "GL_OPTION_checkcommitstopurl" in os.environ:
             self.urls = [os.environ["GL_OPTION_checkcommitstopurl"]]
-        elif "checkcommitstopurl" in os.environ:
+            return;
+        
+        if "checkcommitstopurl" in os.environ:
             self.urls = [os.environ["checkcommitstopurl"]]
-        else:
-            print ("Environment variable checkcommitstopurl is required. If you use Gitlote, add this to the repo config:")
-            print ("option ENV.checkcommitstopurl=https://example.com/postsai/extensions/commitstop/api.py")
-            sys.exit(2)
+            return;
+        
+        if os.path.exists("/etc/checkcommitstop"):
+            with open("/etc/checkcommitstop") as f:
+                self.urls = f.read().splitlines()
+                return;
+
+        print ("Please create a file /etc/checkcommitstop which contains one targe url per line.")
+        print ("If you use Gitlote, you may also add this to the repo config instead:")
+        print ("option ENV.checkcommitstopurl=https://example.com/postsai/extensions/commitstop/api.py")
+        sys.exit(2)
+
 
 
     def read_repository(self):
         """reads the name of the repository"""
 
-        self.repository = os.environ["GL_REPO"]
+        if "GL_REPO" in os.environ:
+            self.repository = os.environ["GL_REPO"]
+        else:
+            self.repository = re.sub("\.git", "", re.sub(".*/", "", os.getcwd()))
+
 
 
     def read_user(self):
@@ -74,6 +88,8 @@ class PermissionChecker:
 
         if "GL_USER" in os.environ:
             self.user = os.environ["GL_USER"]
+        elif "GL_USERNAME" in os.environ:
+            self.user = os.environ["GL_USERNAME"]
         else:
             self.user = os.environ["USER"]
 
