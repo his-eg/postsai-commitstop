@@ -1,5 +1,5 @@
 # The MIT License (MIT)
-# Copyright (c) 2016-2017 HIS e. G.
+# Copyright (c) 2016-2018 HIS e. G.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -91,17 +91,17 @@ def checkLines(conf, repository, branch, user, group, commitmsg):
                 (rejected, message) = matches(line, repository, branch, user, group, commitmsg)
                 if rejected: return (False, message)
             else:
-                return (False, "Malformed configuration.")
-        return (False, "Rejected by default.")
+                return (False, "Commit Stop Check: Malformed configuration.")
+        return (False, "Commit Stop Check: Rejected by default.")
 
 
 def checkPrivilege2(arguments):
     if not arguments.__contains__("repository"):
-        return(False, "no repository given")
+        return(False, "Commit Stop Check: no repository given")
     elif not arguments.__contains__("branch"):
-        return (False, "no branch given")
+        return (False, "Commit Stop Check: no branch given")
     elif not arguments.__contains__("user"):
-        return (False, "no  user given")
+        return (False, "Commit Stop Check: no user given")
     else:
         repository = arguments["repository"].value
         branch = arguments["branch"].value
