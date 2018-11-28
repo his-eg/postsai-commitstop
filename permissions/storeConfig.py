@@ -19,10 +19,8 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
-
 import sys
 import os
-
 
 # ugly but necessary: also find packages at the root of the package tree
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
@@ -35,7 +33,7 @@ from response import ret403
 
 def storeConfig(arguments):
     """ store a new configuration in the database """
-
+    
     if not arguments.__contains__("changeComment"):
         ret403("no changeComment")
     elif not arguments.__contains__("configText"):
@@ -43,8 +41,12 @@ def storeConfig(arguments):
     elif not config.repository_status_permission():
         ret403("no permission to alter configuration.")
     else:
-        username = os.environ.get("REMOTE_USER", "-")
-        if "repository_status_username" in vars(config):
-            username = config.repository_status_username()
-        data = (arguments["configText"], username, arguments["changeComment"])
-        writeConfigToDB(data)
+        (syntaxOkay, syntaxMsg) = checkLinesSyntax();
+        if not syntaxOkay:
+            ret403("Syntax error in search configuration: " + syntaxMsg)
+        else:
+            username = os.environ.get("REMOTE_USER", "-")
+            if "repository_status_username" in vars(config):
+                username = config.repository_status_username()
+            data = (arguments["configText"], username, arguments["changeComment"])
+            writeConfigToDB(data)
