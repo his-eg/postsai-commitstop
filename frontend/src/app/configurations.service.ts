@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, Response } from '@angular/http';
-
-import 'rxjs/add/operator/toPromise';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import {Submission} from './submission'
 import {Configuration} from './configuration'
@@ -29,22 +28,18 @@ function formatDate( str: string ) {
 @Injectable()
 export class ConfigurationsService {
 
-    constructor( private http: Http ) { }
+    constructor( private httpClient: HttpClient ) { }
 
     private baseUrl = '../../api.py'; // TODO URL to web api
 
     private configurationsUrl = this.baseUrl + '?history=100';
 
 
-    getConfigurations(): Promise<Submission[]> {
-          let confs = this.http.get( this.configurationsUrl )
-            .toPromise()
-            .then( response =>
-                this.translate( response.json() )
-            )
-            .catch( this.handleError );
+    getConfigurations(): Observable<Submission[]> {
+    	let confs = this.httpClient.get( this.configurationsUrl )
+            .pipe( map(response => this.translate( response as any )));
 
-        return confs
+        return confs;
     }
 
     private translate( o: string[][] ): Submission[] {
@@ -59,23 +54,14 @@ export class ConfigurationsService {
         return submissions
     }
 
-    private handleError( error: any ): Promise<any> {
-        alert( 'error retrieving data: ' + error )
-        return Promise.reject( error.message || error );
-    }
-
-
-    saveConfig( submission: Configuration ): Promise<Response> {
+    saveConfig( submission: Configuration ): Observable<any> {
         // INSERT INTO `postsaidb`.`repository_status` (`configtext`, `username`, `changecomment`, `changetime`) VALUES ('+ oink', 'einer', '*kommentier*', '2004-01-23 17:00:00');        
-        // this won't actually work because the StarWars API doesn't 
-        // is read-only. But it would look like this:
-        console.error( submission.toString() );
-        return this.http.post( `${this.baseUrl}?activate=1`, JSON.stringify( submission ), { headers: this.getHeaders() }).toPromise();
+        return this.httpClient.post( `${this.baseUrl}?activate=1`, submission, { headers: this.getHeaders(), responseType: 'text' });
     }
 
 
     private getHeaders() {
-        let headers = new Headers();
+        let headers = new HttpHeaders();
         headers.append( 'Accept', 'application/json' );
         return headers;
     }

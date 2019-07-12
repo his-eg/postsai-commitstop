@@ -28,6 +28,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")
 import config
 
 from configDb import writeConfigToDB
+from checkPrivilege import checkLinesSyntax
 from response import ret403
 
 
@@ -41,7 +42,7 @@ def storeConfig(arguments):
     elif not config.repository_status_permission():
         ret403("no permission to alter configuration.")
     else:
-        (syntaxOkay, syntaxMsg) = checkLinesSyntax();
+        (syntaxOkay, syntaxMsg) = checkLinesSyntax(arguments["configText"]);
         if not syntaxOkay:
             ret403("Syntax error in search configuration: " + syntaxMsg)
         else:
