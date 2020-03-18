@@ -13,7 +13,7 @@ cp -ax . $TMPDIR/commitstop
 # Delete unnecessary files
 mv $TMPDIR/commitstop/frontend/dist $TMPDIR/
 rm -rf $TMPDIR/commitstop/.git $TMPDIR/commitstop/dist.sh $TMPDIR/commitstop/frontend
-rm `find . -name *.pyc`
+rm `find $TMPDIR -name *.pyc`
 mv $TMPDIR/dist $TMPDIR/commitstop/frontend
 
 # adjust relativ path because path is just "frontend" in distribution instead of "frontend/dist" 
