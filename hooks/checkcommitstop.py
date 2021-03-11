@@ -78,7 +78,7 @@ class PermissionChecker:
 
         if "GL_REPO" in os.environ:
             self.repository = os.environ["GL_REPO"]
-        else if "GL_PROJECT_PATH" in os.environ:
+        elif "GL_PROJECT_PATH" in os.environ:
             self.repository = os.environ["GL_PROJECT_PATH"]
         else:
             self.repository = re.sub("\.git", "", re.sub(".*/", "", os.getcwd()))
