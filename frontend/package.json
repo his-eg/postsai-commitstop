@@ -23,7 +23,7 @@
     "@angular/router": "^9.0.6",
     "@swimlane/ngx-datatable": "^16.0.2",
     "core-js": "^3.1.4",
-    "lodash.template": "^4.5.0",
+    "lodash.template": "^4.18.1",
     "rxjs": "^6.5.4",
     "rxjs-compat": "^6.0.0-rc.0",
     "ts-helpers": "^1.1.2",
